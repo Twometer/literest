@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\ApiController.cs" />
-    <Compile Include="Api\ApiResult.cs" />
     <Compile Include="Attributes\ContentParameterAttribute.cs" />
     <Compile Include="Attributes\ControllerAttribute.cs" />
     <Compile Include="Attributes\HttpAttribute.cs" />

@@ -11,11 +11,11 @@ namespace LiteRest.Testing
     {
         public static void Main(string[] args)
         {
-
-            var webApp = WebApp.Create(new TestController());
-
+            var webApp = WebApp.Create(
+                new TestController(),
+                new BookshelfController()
+                );
             webApp.Start("http://127.0.0.1:8080/");
-
         }
     }
 }

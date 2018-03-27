@@ -14,7 +14,7 @@ namespace LiteRest.Handler
 {
     public class RequestHandler
     {
-        private ApiController[] controllers;
+        private readonly ApiController[] controllers;
 
         public RequestHandler(ApiController[] controllers)
         {
@@ -40,25 +40,36 @@ namespace LiteRest.Handler
                 {
                     if (!(method.GetCustomAttributes(typeof(HttpAttribute), true).FirstOrDefault() is HttpAttribute httpAttribute)) continue;
                     if (httpAttribute.Method != request.HttpMethod) continue;
+                    var methodParamCount = method.GetParameters().Count(param => param.GetCustomAttributes(typeof(UrlParameterAttribute), true).Length != 0);
+                    if (methodParamCount != request.QueryString.Count) continue;
 
                     var parameters = new List<object>();
                     foreach (var param in method.GetParameters())
                     {
-                        var paramCount = parameters.Count;
-                        foreach (var key in request.QueryString.AllKeys)
+                        var isUrlParameter = param.GetCustomAttributes(typeof(UrlParameterAttribute), true).Length != 0;
+                        var isContentParameter = param.GetCustomAttributes(typeof(ContentParameterAttribute), true).Length != 0;
+                        if (isUrlParameter)
                         {
-                            if (!param.Name.Equals(key, StringComparison.OrdinalIgnoreCase)) continue;
-                            parameters.Add(ConvertParameter(request.QueryString.Get(key), param, out var success));
-                            if (!success)
+                            var paramCount = parameters.Count;
+                            foreach (var key in request.QueryString.AllKeys)
                             {
-                                SendReponse(response, "text/html", "<style>*{font-family:sans-serif;}</style>" +
-                                                                   "<h1>Error 400 Bad Request</h1>" +
-                                                                   "Received a malformed request");
-                                return;
+                                if (!param.Name.Equals(key, StringComparison.OrdinalIgnoreCase)) continue;
+                                parameters.Add(ConvertParameter(request.QueryString.Get(key), param, out var success));
+                                if (!success)
+                                {
+                                    SendReponse(response, "text/html", "<style>*{font-family:sans-serif;}</style>" +
+                                                                       "<h1>Error 400 Bad Request</h1>" +
+                                                                       "Received a malformed request");
+                                    return;
+                                }
+                                break;
                             }
-                            break;
+                            if (parameters.Count == paramCount) parameters.Add(null);
                         }
-                        if (parameters.Count == paramCount) parameters.Add(null);
+                        else if (isContentParameter)
+                        {
+
+                        }
                     }
 
                     var result = method.Invoke(controller, parameters.ToArray());
