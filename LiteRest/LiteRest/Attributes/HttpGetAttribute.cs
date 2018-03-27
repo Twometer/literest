@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace LiteRest.Attributes
 {
-    public class HttpGetAttribute : Attribute
+    public class HttpGetAttribute : HttpAttribute
     {
+        public HttpGetAttribute() : base("GET")
+        {
+        }
     }
 }

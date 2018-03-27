@@ -13,15 +13,15 @@ namespace LiteRest.Testing.Controllers
     {
 
         [HttpGet]
-        public void GetCommands([UrlParameter] int limit)
+        public ApiResult<string> GetCommands([UrlParameter] int limit)
         {
-            
+            return new ApiResult<string>("Test, limit was " + limit);
         }
 
         [HttpPost]
-        public void SendCommand([ContentParameter] string command)
+        public ApiResult<string> SendCommand([ContentParameter] string command)
         {
-            
+            return new ApiResult<string>("Test");
         }
     }
 }

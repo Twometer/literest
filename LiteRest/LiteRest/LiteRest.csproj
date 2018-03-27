@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,8 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\ApiController.cs" />
+    <Compile Include="Api\ApiResult.cs" />
     <Compile Include="Attributes\ContentParameterAttribute.cs" />
     <Compile Include="Attributes\ControllerAttribute.cs" />
+    <Compile Include="Attributes\HttpAttribute.cs" />
     <Compile Include="Attributes\HttpGetAttribute.cs" />
     <Compile Include="Attributes\HttpPostAttribute.cs" />
     <Compile Include="Attributes\UrlParameterAttribute.cs" />
@@ -50,6 +55,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebApp.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

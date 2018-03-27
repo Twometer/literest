@@ -4,12 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LiteRest.Attributes
+namespace LiteRest.Api
 {
-    public class HttpPostAttribute : HttpAttribute
+    public class ApiResult<T>
     {
-        public HttpPostAttribute() : base("POST")
+
+        public T Value { get; }
+
+        public ApiResult(T value)
         {
+            Value = value;
         }
+
     }
 }

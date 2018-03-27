@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace LiteRest.Attributes
 {
-    public class HttpPostAttribute : HttpAttribute
+    public abstract class HttpAttribute : Attribute
     {
-        public HttpPostAttribute() : base("POST")
+        internal HttpAttribute(string method)
         {
+            Method = method;
         }
+
+        internal string Method { get; }
+
     }
 }
